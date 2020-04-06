@@ -1,0 +1,6 @@
+# Default values for datahub-down.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+nginxErrors:
+  image: quay.io/kubernetes-ingress-controller/custom-error-pages-amd64:0.4
