@@ -53,9 +53,3 @@ kubectl get configmap -n default
       heritage: Tiller
       release: ingress
 ```
-
-
-
-## Development
-
-For errors outside of
