@@ -12,7 +12,7 @@ Note: Installing this chart along with the manual configurations creates a GLOBA
 helm install --name datahub-down $(pwd)
 ```
 
-### Add annotations to nginx deployment
+### Modify argument to nginx deployment
 
 Edit the `ingress-nginx-ingress-controller` deployment under the `default` namespace and add the `--default-backend-service=default/nginx-errors` switch to `args` of the under the `container` subfield. See example for details
 
@@ -30,6 +30,32 @@ kubectl edit deployment ingress-nginx-ingress-controller - n default
         - --ingress-class=nginx
         - --configmap=default/ingress-nginx-ingress-controller
         - --enable-ssl-chain-completion=false
+```
+
+### modify the nginx annotations for the jupyterhub ingress
+
+Edit the `jupyterhub-extra` ingress and add the following annotations:
+
+```bash
+ingress.kubernetes.io/proxy-read-timeout: "2"
+nginx.ingress.kubernetes.io/proxy-connect-timeout: "2"
+nginx.ingress.kubernetes.io/proxy-send-timeout: "2"
+```
+
+Will decrease the timeout for the app to be responsive to 2 seconds. See example
+
+```bash
+kubectl edit ingress jupyterhub-extra -n jupyterhub
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    ingress.kubernetes.io/proxy-read-timeout: "2"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "2"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "2"
+    kubernetes.io/ingress.class: nginx
+
 ```
 
 ### Add custom errors to nginx controller configamp
