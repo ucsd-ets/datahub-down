@@ -30,3 +30,24 @@ Create chart name and version as used by the chart label.
 {{- define "datahub-down.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/*
+Selector labels
+*/}}
+{{- define "datahub-down.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "datahub-down.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+
+{{/*
+Common labels
+*/}}
+{{- define "datahub-down.labels" -}}
+helm.sh/chart: {{ include "datahub-down.chart" . }}
+{{ include "datahub-down.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}

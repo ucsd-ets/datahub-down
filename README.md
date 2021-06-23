@@ -9,7 +9,7 @@ Note: Installing this chart along with the manual configurations creates a GLOBA
 ### Install the helm chart
 
 ```bash
-helm install --name datahub-down $(pwd)
+helm3 install datahub-down $(pwd)
 ```
 
 ### Modify argument to nginx deployment
