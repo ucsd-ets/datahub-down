@@ -37,9 +37,7 @@ kubectl edit deployment ingress-nginx-ingress-controller - n default
 Edit the `jupyterhub-extra` ingress and add the following annotations:
 
 ```bash
-ingress.kubernetes.io/proxy-read-timeout: "2"
-nginx.ingress.kubernetes.io/proxy-connect-timeout: "2"
-nginx.ingress.kubernetes.io/proxy-send-timeout: "2"
+nginx.ingress.kubernetes.io/proxy-read-timeout: "2"
 ```
 
 Will decrease the timeout for the app to be responsive to 2 seconds. See example
