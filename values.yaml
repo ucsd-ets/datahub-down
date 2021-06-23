@@ -12,3 +12,5 @@ tolerations:
   effect: NoSchedule
 
 namespace: default
+
+nginxErrorPagesHostPath: /root/nginx-error-pages

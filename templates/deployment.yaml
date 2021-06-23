@@ -28,7 +28,7 @@ spec:
       volumes:
       - name: nginx-errors-configmap
         hostPath:
-          path: /root/nginx-error-pages
+          path: {{ .Values.nginxErrorPagesHostPath }}
       containers:
       - name: nginx-error-server
         image: {{ .Values.image }}
