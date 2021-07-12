@@ -9,8 +9,16 @@ Note: Installing this chart along with the manual configurations creates a GLOBA
 ### Install the helm chart
 
 ```bash
+# download the repo & run
 helm install --name datahub-down $(pwd)
+
+# alternatively, use the helmfile
+ssh <username>@its-dsmlp-master
+cd /opt/kubeops
+sudo helmfile -e dsmlp -l name=datahub-down -b $(which helm3) sync
 ```
+
+## Configuration
 
 ### Modify argument to nginx deployment
 
