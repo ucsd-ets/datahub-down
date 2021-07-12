@@ -1,0 +1,7 @@
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ template "datahub-down.name" . }}
+  labels:
+    {{- include "datahub-down.labels" . | nindent 4 }}

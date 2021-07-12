@@ -1,0 +1,15 @@
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ template "datahub-down.name" . }}
+  labels:
+    {{- include "datahub-down.labels" . | nindent 4 }}
+subjects:
+- kind: ServiceAccount
+  name: {{ template "datahub-down.name" . }}
+  apiGroup: ""
+  namespace: {{ .Values.namespace }}
+roleRef:
+  kind: ClusterRole
+  name: {{ template "datahub-down.name" . }}
+  apiGroup: ""

@@ -2,5 +2,15 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-nginxErrors:
-  image: quay.io/kubernetes-ingress-controller/custom-error-pages-amd64:0.4
+image: quay.io/kubernetes-ingress-controller/custom-error-pages-amd64:0.4
+
+nodeSelector:
+  kubernetes.io/hostname: its-dsmlp-master.ucsd.edu
+
+tolerations:
+- key: node-role.kubernetes.io/master
+  effect: NoSchedule
+
+namespace: default
+
+nginxErrorPagesHostPath: /root/nginx-error-pages
