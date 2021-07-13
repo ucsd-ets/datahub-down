@@ -4,21 +4,28 @@ Source code for datahub's alternate page. Works through nginx.
 
 Note: Installing this chart along with the manual configurations creates a GLOBAL outage page for that particular error. Meaning, if 2 services are crashed resulting in 504s visible in the browser, then both pages will see the same 504 outage page. Currently, there's no technical way of creating custom errors for a given service.
 
-## Installation
+## Configuration & Installation
 
-### Install the helm chart
+### Modify the helm chart values
 
-```bash
-# download the repo & run
-helm install --name datahub-down $(pwd)
+This chart should run on a node that will to be operational throughout the duration of the cluster's lifetime (e.g. k8s master node). The path for the HTML templates will be on the host its running on
 
-# alternatively, use the helmfile
-ssh <username>@its-dsmlp-master
-cd /opt/kubeops
-sudo helmfile -e dsmlp -l name=datahub-down -b $(which helm3) sync
+```yaml
+image: quay.io/kubernetes-ingress-controller/custom-error-pages-amd64:0.4
+
+# where the pod runs
+nodeSelector:
+  kubernetes.io/hostname: its-dsmlp-master.ucsd.edu
+
+tolerations:
+- key: node-role.kubernetes.io/master
+  effect: NoSchedule
+
+namespace: default
+
+# host path of the templates
+nginxErrorPagesHostPath: /root/nginx-error-pages
 ```
-
-## Configuration
 
 ### Modify argument to nginx deployment
 
@@ -84,4 +91,16 @@ kubectl get configmap -n default
       component: controller
       heritage: Tiller
       release: ingress
+```
+
+### Install the helm chart
+
+```bash
+# download the repo & run
+helm install --name datahub-down $(pwd)
+
+# alternatively, use the helmfile
+ssh <username>@its-dsmlp-master
+cd /opt/kubeops
+sudo helmfile -e dsmlp -l name=datahub-down -b $(which helm3) sync
 ```
